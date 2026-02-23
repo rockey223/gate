@@ -62,7 +62,7 @@ export function Navbar({ currentPage, onNavigate }) {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
+          <div className="fixed top-16 left-0 right-0 bg-white py-4 border-t z-40 px-5 flex flex-col shadow-md">
             {navItems.map((item) => (
               <Link
                 key={item.id}
@@ -73,7 +73,7 @@ export function Navbar({ currentPage, onNavigate }) {
                 className={`block w-full text-left px-4 py-3 ${
                   currentPage === item.id
                     ? "text-blue-600 font-semibold bg-blue-50"
-                    : "text-gray-700 hover:bg-gray-50"
+                    : "text-gray-700 hover:bg-gray-100 !transition-none"
                 }`}
               >
                 {item.name}
@@ -84,7 +84,7 @@ export function Navbar({ currentPage, onNavigate }) {
               onClick={() => {
                 setIsMenuOpen(false);
               }}
-              className="w-full mt-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full mt-5 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Apply Now
             </Link>
