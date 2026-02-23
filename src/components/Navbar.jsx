@@ -1,9 +1,7 @@
-'use client';
+"use client";
 import { GraduationCap, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-
-
 
 export function Navbar({ currentPage, onNavigate }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,10 +18,7 @@ export function Navbar({ currentPage, onNavigate }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link
-            className="flex items-center gap-2 cursor-pointer"
-            href={'/'}
-          >
+          <Link className="flex items-center gap-2 cursor-pointer" href={"/"}>
             <div className="bg-blue-600 p-2 rounded-lg">
               <GraduationCap className="text-white" size={24} />
             </div>
@@ -47,12 +42,13 @@ export function Navbar({ currentPage, onNavigate }) {
                 {item.name}
               </Link>
             ))}
-            <button
-              onClick={() => onNavigate("contact")}
+            <Link
+              href={"/contact"}
+             
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Apply Now
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -68,10 +64,10 @@ export function Navbar({ currentPage, onNavigate }) {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             {navItems.map((item) => (
-              <button
+              <Link
                 key={item.id}
+                href={item.id}
                 onClick={() => {
-                  onNavigate(item.id);
                   setIsMenuOpen(false);
                 }}
                 className={`block w-full text-left px-4 py-3 ${
@@ -81,17 +77,17 @@ export function Navbar({ currentPage, onNavigate }) {
                 }`}
               >
                 {item.name}
-              </button>
+              </Link>
             ))}
-            <button
+            <Link
+              href={"/contact"}
               onClick={() => {
-                onNavigate("contact");
                 setIsMenuOpen(false);
               }}
               className="w-full mt-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Apply Now
-            </button>
+            </Link>
           </div>
         )}
       </div>
