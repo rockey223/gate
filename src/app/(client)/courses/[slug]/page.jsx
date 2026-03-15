@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import React from "react";
 
+export const dynamic = "force-dynamic";
 const page = async ({ params }) => {
   const { slug } = await params;
   console.log(slug);

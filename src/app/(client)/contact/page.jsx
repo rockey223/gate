@@ -2,6 +2,7 @@ import ContactForm from "@/components/clientComponent/ContactForm";
 import { getContactPage } from "@/serverActions/contactPage";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 export const revalidate = 20;
+export const dynamic = "force-dynamic";
 export default async function ContactPage() {
   const contactPageDetails = await getContactPage();
   console.log(contactPageDetails);
