@@ -10,7 +10,7 @@ import { cleanData } from "@/utils/cleandata";
 export async function createAdmin(request) {
   try {
     await connectToDatabase();
-    const data = await request.json();
+    const data = await request;
 
 
     const { name, email, password } = data;

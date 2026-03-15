@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 export const revalidate = 20;
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const heroSectionData = await getHeroSection();
   const heroSection = heroSectionData.heroSection;

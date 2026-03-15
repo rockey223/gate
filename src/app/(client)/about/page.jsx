@@ -1,4 +1,5 @@
 import { Target, Eye, Award, Users, BookOpen, Globe } from "lucide-react";
+export const dynamic = "force-dynamic";
 
 export default function AboutPage() {
   const values = [
