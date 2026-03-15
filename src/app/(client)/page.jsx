@@ -1,3 +1,5 @@
+import { getHeroSection } from "@/serverActions/heroSection";
+import { getWhyChooseUsList } from "@/serverActions/whyChooseUs";
 import {
   BookOpen,
   Users,
@@ -13,37 +15,17 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+export const revalidate = 20;
+export default async function HomePage() {
+  const heroSectionData = await getHeroSection();
+  const heroSection = heroSectionData.heroSection;
+  const whyChooseUsList = await getWhyChooseUsList(); // await getWhyChooseUsList();
 
-export default function HomePage() {
   const stats = [
     { icon: Users, label: "Students Enrolled", value: "15,000+" },
     { icon: BookOpen, label: "Courses Available", value: "200+" },
     { icon: Award, label: "Awards Won", value: "50+" },
     { icon: TrendingUp, label: "Placement Rate", value: "95%" },
-  ];
-
-  const features = [
-    {
-      title: "World-Class Faculty",
-      description:
-        "Learn from industry experts and renowned academics who are passionate about teaching.",
-      image:
-        "https://images.unsplash.com/photo-1721702754494-fdd7189f946c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwc3R1ZGVudHMlMjBzdHVkeWluZ3xlbnwxfHx8fDE3NzE4MTM0MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    },
-    {
-      title: "Modern Infrastructure",
-      description:
-        "State-of-the-art facilities including smart classrooms, labs, and research centers.",
-      image:
-        "https://images.unsplash.com/photo-1640416639872-93aabd8d91d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc3Jvb20lMjBsZWN0dXJlJTIwaGFsbHxlbnwxfHx8fDE3NzE4MjE0Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    },
-    {
-      title: "Global Recognition",
-      description:
-        "Accredited programs recognized worldwide, opening doors to international opportunities.",
-      image:
-        "https://images.unsplash.com/photo-1738949538943-e54722a44ffc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwZ3JhZHVhdGlvbiUyMGNlcmVtb255fGVufDF8fHx8MTc3MTcwNzc0NXww&ixlib=rb-4.1.0&q=80&w=1080",
-    },
   ];
 
   const testimonials = [
@@ -139,17 +121,19 @@ export default function HomePage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1725701143530-cc52c857d29a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwY2FtcHVzJTIwYnVpbGRpbmd8ZW58MXx8fHwxNzcxNzM2NDA3fDA&ixlib=rb-4.1.0&q=80&w=1080')",
+              heroSection && heroSection.bannerImage
+                ? `url('${heroSection.bannerImage}')`
+                : "url('https://images.unsplash.com/photo-1725701143530-cc52c857d29a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwY2FtcHVzJTIwYnVpbGRpbmd8ZW58MXx8fHwxNzcxNzM2NDA3fDA&ixlib=rb-4.1.0&q=80&w=1080')",
           }}
         >
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
         <div className="relative z-10 text-center text-white max-w-4xl px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Shape Your Future with Excellence
+            {heroSection ? heroSection.heroTitle : ""}
           </h1>
           <p className="text-xl md:text-2xl mb-8">
-            Join a community of learners, innovators, and future leaders
+            {heroSection ? heroSection.heroSubtitle : ""}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -184,7 +168,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* why chosoe us */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -198,7 +182,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
+            {whyChooseUsList.map((feature, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
@@ -278,7 +262,7 @@ export default function HomePage() {
       </section>
 
       {/* Student Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -326,7 +310,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Top Recruiters Section */}
       <section className="py-20 bg-white">
@@ -370,7 +354,7 @@ export default function HomePage() {
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -423,7 +407,7 @@ export default function HomePage() {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Global Presence Section */}
       <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">

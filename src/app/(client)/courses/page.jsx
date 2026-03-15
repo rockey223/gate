@@ -1,3 +1,4 @@
+import { getAllCourses } from "@/serverActions/course";
 import {
   BookOpen,
   Code,
@@ -11,91 +12,9 @@ import {
   Users,
   GraduationCap,
 } from "lucide-react";
+import Link from "next/link";
 
-export default function CoursesPage() {
-  const courses = [
-    {
-      icon: Code,
-      category: "Technology",
-      title: "Computer Science & Engineering",
-      duration: "4 Years",
-      students: "2,500+",
-      description:
-        "Master programming, AI, machine learning, and software development with hands-on projects and industry collaborations.",
-      programs: ["B.Tech", "M.Tech", "Ph.D"],
-    },
-    {
-      icon: Briefcase,
-      category: "Business",
-      title: "Business Administration",
-      duration: "2-4 Years",
-      students: "3,000+",
-      description:
-        "Learn business strategy, finance, marketing, and management from industry experts with real-world case studies.",
-      programs: ["BBA", "MBA", "Executive MBA"],
-    },
-    {
-      icon: Microscope,
-      category: "Science",
-      title: "Life Sciences & Biotechnology",
-      duration: "3-5 Years",
-      students: "1,800+",
-      description:
-        "Explore biology, genetics, and biotechnology with access to state-of-the-art research facilities.",
-      programs: ["B.Sc", "M.Sc", "Ph.D"],
-    },
-    {
-      icon: Palette,
-      category: "Arts",
-      title: "Design & Creative Arts",
-      duration: "3-4 Years",
-      students: "1,200+",
-      description:
-        "Develop your creative skills in graphic design, animation, and digital media with industry-standard tools.",
-      programs: ["BFA", "MFA", "Diploma"],
-    },
-    {
-      icon: Heart,
-      category: "Healthcare",
-      title: "Medicine & Healthcare",
-      duration: "5-6 Years",
-      students: "1,500+",
-      description:
-        "Train to become a healthcare professional with clinical rotations and hands-on patient care experience.",
-      programs: ["MBBS", "BDS", "Nursing"],
-    },
-    {
-      icon: Scale,
-      category: "Law",
-      title: "Law & Legal Studies",
-      duration: "3-5 Years",
-      students: "1,000+",
-      description:
-        "Study constitutional law, criminal justice, and corporate law with moot court competitions and internships.",
-      programs: ["LLB", "LLM", "Integrated BA LLB"],
-    },
-    {
-      icon: Building,
-      category: "Engineering",
-      title: "Civil & Mechanical Engineering",
-      duration: "4 Years",
-      students: "2,200+",
-      description:
-        "Design, build, and innovate in construction, infrastructure, and mechanical systems with practical labs.",
-      programs: ["B.Tech", "M.Tech", "Diploma"],
-    },
-    {
-      icon: BookOpen,
-      category: "Humanities",
-      title: "Arts, Humanities & Social Sciences",
-      duration: "3-4 Years",
-      students: "1,600+",
-      description:
-        "Explore history, literature, psychology, and sociology with interdisciplinary learning approaches.",
-      programs: ["BA", "MA", "Ph.D"],
-    },
-  ];
-
+export default async function CoursesPage() {
   const features = [
     {
       icon: GraduationCap,
@@ -110,7 +29,8 @@ export default function CoursesPage() {
     {
       icon: Users,
       title: "Small Class Sizes",
-      description: "Get personalized attention with low student-to-faculty ratios",
+      description:
+        "Get personalized attention with low student-to-faculty ratios",
     },
     {
       icon: Briefcase,
@@ -118,6 +38,9 @@ export default function CoursesPage() {
       description: "Access internships and job placements through our network",
     },
   ];
+
+  const { data: courses } = await getAllCourses();
+
 
   return (
     <div>
@@ -127,8 +50,8 @@ export default function CoursesPage() {
           <h1 className="text-5xl font-bold mb-6">Our Courses</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
             Discover a wide range of programs designed to help you achieve your
-            academic and career goals. From undergraduate to doctoral studies, we
-            offer comprehensive education across multiple disciplines.
+            academic and career goals. From undergraduate to doctoral studies,
+            we offer comprehensive education across multiple disciplines.
           </p>
         </div>
       </section>
@@ -172,31 +95,33 @@ export default function CoursesPage() {
               >
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6">
                   <div className="bg-blue-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
-                    <course.icon className="text-white" size={28} />
+                    <Building className="text-white" size={28} />
                   </div>
-                  <span className="text-blue-600 font-semibold text-sm">
-                    {course.category}
-                  </span>
                   <h3 className="text-xl font-bold text-gray-900 mt-2">
                     {course.title}
                   </h3>
+                  <span className="text-blue-600 font-semibold text-sm">
+                    {course?.level}
+                  </span>
                 </div>
 
                 <div className="p-6">
-                  <p className="text-gray-600 mb-4">{course.description}</p>
+                  <p className="text-gray-600 mb-4 h-30">
+                    {course.shortDescription}
+                  </p>
 
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-10">
                     <div className="flex items-center gap-1">
                       <Clock size={16} />
                       <span>{course.duration}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Users size={16} />
-                      <span>{course.students}</span>
+                      <span>{course.studentsEnrolled}</span>
                     </div>
                   </div>
 
-                  <div className="border-t pt-4">
+                  {/* <div className="border-t pt-4">
                     <div className="text-sm text-gray-500 mb-2">
                       Programs Offered:
                     </div>
@@ -210,11 +135,11 @@ export default function CoursesPage() {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
 
-                  <button className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                  <Link href={`/courses/${course.slug}`} className="w-full px-4 mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
                     Learn More
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -229,8 +154,8 @@ export default function CoursesPage() {
             Can't Find What You're Looking For?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            We offer many more specialized programs and certificates. Contact our
-            admissions team to explore all available options.
+            We offer many more specialized programs and certificates. Contact
+            our admissions team to explore all available options.
           </p>
           <button className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg">
             Contact Admissions

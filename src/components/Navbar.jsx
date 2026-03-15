@@ -32,7 +32,7 @@ export function Navbar({ currentPage, onNavigate }) {
             {navItems.map((item) => (
               <Link
                 key={item.id}
-                href={item.id}
+                href={`/${item.id}`}
                 className={`transition-colors ${
                   currentPage === item.id
                     ? "text-blue-600 font-semibold"
