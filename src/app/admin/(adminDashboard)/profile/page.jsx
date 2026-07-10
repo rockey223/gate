@@ -2,7 +2,7 @@ import { Save, Camera } from "lucide-react";
 import ProfileDetailsForm from "@/components/adminComponent/ProfileDetailsForm";
 import ProfilePasswordForm from "@/components/adminComponent/ProfilePasswordForm";
 import { getUserDetail } from "@/serverActions/auth";
-
+export const dynamic = "force-dynamic";
 export default async function page() {
   const user = await getUserDetail();
 
