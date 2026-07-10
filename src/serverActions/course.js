@@ -3,10 +3,14 @@ import Course from "@/models/course.model";
 import { cleanData } from "@/utils/cleandata";
 import connectToDatabase from "@/utils/connectDb";
 import { refresh } from "next/cache";
+import { getUserId } from "./auth";
+
 export async function addCourse(data) {
   try {
     await connectToDatabase();
     const courses = await Course.findOne({ slug: data.slug });
+    const id = await getUserId();
+
     if (courses) {
       return {
         message: "adding course failed, slug already exits",
@@ -15,6 +19,8 @@ export async function addCourse(data) {
     }
     const newCourse = await Course.create({
       ...data,
+      addedBy: id,
+      updatedBy: id,
     });
     console.log(newCourse);
 
@@ -68,6 +74,7 @@ export async function editCourse(slug, data) {
     await connectToDatabase();
     const course = await Course.findOne({ slug: slug });
     console.log("editing", course._id.toString());
+    const id = await getUserId();
 
     if (!course) {
       return { message: "Course not found", status: 404 };
@@ -77,6 +84,7 @@ export async function editCourse(slug, data) {
       course._id.toString(),
       {
         ...data,
+        updatedBy: id,
       },
       { returnDocument: "after" },
     );
@@ -93,9 +101,6 @@ export async function editCourse(slug, data) {
     return { message: "updating course failed", status: 500 };
   }
 }
-
-
-
 
 export async function deleteCourse(id) {
   try {

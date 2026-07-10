@@ -1,5 +1,5 @@
 "use client";
-import { loginAdmin } from "@/serverActions/auth";
+import { createAdmin, loginAdmin } from "@/serverActions/auth";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -9,14 +9,18 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
+    // const response = await createAdmin();
     const response = await loginAdmin({ email, password });
-  
-    if (response.status === 400 || response.status === 404) {
+
+    if (
+      response.status === 400 ||
+      response.status === 404 ||
+      response.status === 401
+    ) {
       setError(response.message);
     }
     setIsLoading(false);

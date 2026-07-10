@@ -7,6 +7,7 @@ const layout = async ({ children }) => {
 
   if (user) return redirect("/admin/dashboard");
 
+
   return <>{children}</>;
 };
 

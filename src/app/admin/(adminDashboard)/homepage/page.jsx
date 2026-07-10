@@ -16,7 +16,7 @@ export default async function page({ searchParams }) {
   console.log(query);
 
   return (
-    <div className="p-8 max-w-6xl">
+    <div className="p-8 max-w-7xl">
       <div className="mb-6">
         <h1 className="text-3xl font-semibold mb-2">Home Page Content</h1>
         <p className="text-gray-600">

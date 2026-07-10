@@ -4,6 +4,7 @@ import HeroSection from "@/models/heroSection.model";
 import { cleanData } from "@/utils/cleandata";
 import connectToDatabase from "@/utils/connectDb";
 import { deleteImage, uploadImage } from "@/utils/handleImageOnline";
+import { getUserId } from "./auth";
 
 export async function createHeroSection(data) {
   try {
@@ -11,6 +12,7 @@ export async function createHeroSection(data) {
     const { heroTitle, heroSubtitle, bannerImage } = data;
 
     let bannerImagePath = "";
+    const id = await getUserId();
 
     // Convert browser File -> ArrayBuffer -> Node Buffer
     if (bannerImage instanceof File) {
@@ -24,6 +26,8 @@ export async function createHeroSection(data) {
       heroTitle,
       heroSubtitle,
       bannerImage: bannerImagePath,
+      addedBy: id,
+      updatedBy: id,
     });
     return {
       message: "Hero section created successfully",
@@ -39,6 +43,8 @@ export async function createHeroSection(data) {
 export async function updateHeroSection(data) {
   try {
     await connectToDatabase();
+    const id = await getUserId();
+
     console.log("back data", data);
 
     const { heroTitle, heroSubtitle, bannerImage, removedImage } = data;
@@ -67,6 +73,7 @@ export async function updateHeroSection(data) {
         heroTitle,
         heroSubtitle,
         bannerImage: bannerImagePath,
+        updatedBy: id,
       },
       { new: true },
     );

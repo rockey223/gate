@@ -30,6 +30,7 @@ const DeleteModal = ({ id, fn }) => {
             <button
               onClick={async () => {
                 const response = await fn(id);
+
                 if (response.status === 200) {
                   //   alert("Item deleted successfully");
                   router.push(pathname, { scroll: false });

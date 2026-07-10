@@ -106,7 +106,7 @@ export default async function CoursesPage() {
                 </div>
 
                 <div className="p-6">
-                  <p className="text-gray-600 mb-4 h-30">
+                  <p className="text-gray-600 mb-4 h-30 line-clamp-5">
                     {course.shortDescription}
                   </p>
 

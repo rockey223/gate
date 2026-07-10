@@ -2,11 +2,17 @@
 import ContactPage from "@/models/contactPage.model";
 import { cleanData } from "@/utils/cleandata";
 import connectToDatabase from "@/utils/connectDb";
+import { getUserId } from "./auth";
 
 export async function createContactPageContent(data) {
   try {
     await connectToDatabase();
-    const newPage = await ContactPage.create(data);
+    const id = await getUserId();
+    const newPage = await ContactPage.create({
+      ...data,
+      updatedBy: id,
+      addedBy: id,
+    });
     return {
       message: "Hero section created successfully",
       status: 201,
@@ -20,9 +26,9 @@ export async function createContactPageContent(data) {
 export async function updateContactPage(data) {
   try {
     await connectToDatabase();
-    
 
     const existing = await ContactPage.findOne();
+    const id = await getUserId();
 
     if (existing) {
       // Update fields directly
@@ -34,7 +40,7 @@ export async function updateContactPage(data) {
       existing.twitterUrl = data.twitterUrl;
       existing.tiktokUrl = data.tiktokUrl;
       existing.instagramUrl = data.instagramUrl;
-
+      existing.updatedBy = id;
       await existing.save();
       return { message: "updated" };
     } else {
@@ -48,6 +54,7 @@ export async function updateContactPage(data) {
         twitterUrl: data.twitterUrl,
         tiktokUrl: data.tiktokUrl,
         instagramUrl: data.instagramUrl,
+        updatedBy: id,
       });
       return { message: "created" };
     }
@@ -56,7 +63,6 @@ export async function updateContactPage(data) {
     return { message: "updating contact page section failed", status: 500 };
   }
 }
-
 
 export async function getContactPage() {
   try {
@@ -69,7 +75,7 @@ export async function getContactPage() {
       return { message: "No contact page found", data: null };
     }
 
-    return cleanData(contact) ;
+    return cleanData(contact);
   } catch (error) {
     console.error("getContactPage error:", error);
     return { message: "Failed to fetch contact page", data: null, status: 500 };

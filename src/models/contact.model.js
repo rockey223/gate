@@ -22,6 +22,7 @@ const contactSchema = new Schema({
     type: String,
     required: true,
   },
+  
 });
 
 const Contact = models.Contact || model("Contact",contactSchema)

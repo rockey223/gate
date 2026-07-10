@@ -7,9 +7,9 @@ const courseSchema = new Schema(
       type: String,
       required: true,
     },
-    slug:{
-        type:String,
-        required: true
+    slug: {
+      type: String,
+      required: true,
     },
     shortDescription: {
       type: String,
@@ -54,6 +54,14 @@ const courseSchema = new Schema(
         type: String,
       },
     ],
+    updatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

@@ -30,6 +30,14 @@ const contactPageSchema = new Schema(
     instagramUrl: {
       type: String,
     },
+    addedBy:{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
+    updatedBy:{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
   },
   { timestamps: true }
 );

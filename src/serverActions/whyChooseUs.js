@@ -4,11 +4,13 @@ import { cleanData } from "@/utils/cleandata";
 import connectToDatabase from "@/utils/connectDb";
 import { deleteImage, uploadImage } from "@/utils/handleImageOnline";
 import { refresh } from "next/cache";
+import { getUserId } from "./auth";
 
 export async function createWhyChooseUs(data) {
   try {
     await connectToDatabase();
     const { title, description, image } = data;
+    const id = await getUserId();
 
     let imagePath = "";
 
@@ -21,6 +23,8 @@ export async function createWhyChooseUs(data) {
       title,
       description,
       image: imagePath,
+      addedBy: id,
+      updatedBy: id,
     });
     refresh();
 
@@ -51,6 +55,7 @@ export async function updateWhyChooseUs(data) {
     await connectToDatabase();
     const { title, description, image, removedImage } = data;
     console.log("remove", removedImage);
+    const id = await getUserId();
 
     const entry = await WhyChooseUs.findById(data.id);
     console.log("entry", entry);
@@ -77,6 +82,7 @@ export async function updateWhyChooseUs(data) {
         title,
         description,
         image: imagePath,
+        updatedBy: id,
       },
       { new: true },
     );
